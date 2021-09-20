@@ -5,6 +5,12 @@
 Had to install .NET SDK 4.7.1 not 4.6 (probably becasue I have the newest Unity version 2021.1.21f1 or sth instead of 2019 in the VS code docs)
 for intellisense autocompletion. And C# Extension for C# erros. And referenceing `Microsoft.Unity.Analyzers.` in `omnisharp.json file` to enable Unity specific & C# warnings.
 
+---
+
+some time later it didn't work once again.
+To resolve: delete .sln and C# project file. Then regenerate project and sln file via Unity Editor > Edit > Preferences > External Tools "Regenerate Project File"
+
+
 ### activating git LFS, adding .gitignore and .gitattributes with good defaults
 
 ```ps
