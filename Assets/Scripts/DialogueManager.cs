@@ -1,9 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class DialogueManager : MonoBehaviour
 {
+
+    public TextMeshProUGUI npcNameText;
+    public TextMeshProUGUI dialogueText;
 
     private Queue<string> sentences;
 
@@ -13,9 +18,14 @@ public class DialogueManager : MonoBehaviour
     }
 
     public void StartDialogue(Dialogue dialogue){
-        Debug.Log("Starting conversation" + dialogue.npcName);        
+        InitializeSentenceQueue(dialogue);
+        DisplayNextSentence();
+    }
 
+    private void InitializeSentenceQueue(Dialogue dialogue){        
         sentences.Clear();
+
+        npcNameText.text = dialogue.npcName;
 
         foreach(string sentence in dialogue.sentences){
             sentences.Enqueue(sentence);
@@ -29,7 +39,8 @@ public class DialogueManager : MonoBehaviour
         }
 
         string nextSentence = sentences.Dequeue();
-        Debug.Log(nextSentence);
+        // Debug.Log(nextSentence);
+        dialogueText.text = nextSentence;
     }
 
     private void EndDialogue(){
