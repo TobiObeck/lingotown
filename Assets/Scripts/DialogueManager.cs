@@ -10,6 +10,8 @@ public class DialogueManager : MonoBehaviour
     public TextMeshProUGUI npcNameText;
     public TextMeshProUGUI dialogueText;
 
+    public Animator animator;
+
     private Queue<string> sentences;
 
     void Start()
@@ -18,8 +20,13 @@ public class DialogueManager : MonoBehaviour
     }
 
     public void StartDialogue(Dialogue dialogue){
+        PlayOpenDialogueBoxAnimation();
         InitializeSentenceQueue(dialogue);
         DisplayNextSentence();
+    }
+
+    private void PlayOpenDialogueBoxAnimation(){
+        animator.SetBool("IsOpen", true);
     }
 
     private void InitializeSentenceQueue(Dialogue dialogue){        
@@ -39,11 +46,21 @@ public class DialogueManager : MonoBehaviour
         }
 
         string nextSentence = sentences.Dequeue();
-        // Debug.Log(nextSentence);
-        dialogueText.text = nextSentence;
+        // Debug.Log(nextSentence);        
+        StopAllCoroutines(); // stops Animation in case user triggers already next sentence
+        StartCoroutine(TypeSentence(nextSentence));
+    }
+
+    IEnumerator TypeSentence(string nextSentence){
+        dialogueText.text = "";
+        foreach(char letter in nextSentence.ToCharArray()){
+            dialogueText.text += letter;
+            yield return null; // waiting a single frame
+        }
     }
 
     private void EndDialogue(){
         Debug.Log("end of convo");
+        animator.SetBool("IsOpen", false);
     }
 }
