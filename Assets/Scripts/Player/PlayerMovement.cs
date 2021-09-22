@@ -21,11 +21,11 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        this.isGrounded = Physics.CheckSphere(
+        isGrounded = Physics.CheckSphere(
             groundCheckNode.position, groundDistance, groundMask);
 
-        if(this.isGrounded && this.velocity.y < 0){
-            this.velocity.y = -2f;
+        if(isGrounded && velocity.y < 0){
+            velocity.y = -2f;
         }
 
 
@@ -33,13 +33,13 @@ public class PlayerMovement : MonoBehaviour
         float z = Input.GetAxis("Vertical");
 
         Vector3 moveDirection = transform.right * x + transform.forward * z;
-        this.controller.Move(Time.deltaTime * speed * moveDirection);
+        controller.Move(Time.deltaTime * speed * moveDirection);
 
-        if(Input.GetButtonDown("Jump") && this.isGrounded){
-            this.velocity.y = Mathf.Sqrt(this.jumpHeight * (-2f) * gravity);
+        if(Input.GetButtonDown("Jump") && isGrounded){
+            velocity.y = Mathf.Sqrt(jumpHeight * (-2f) * gravity);
         }
 
-        this.velocity.y += gravity * Time.deltaTime;
-        this.controller.Move(this.velocity * Time.deltaTime);
+        velocity.y += gravity * Time.deltaTime;
+        controller.Move(velocity * Time.deltaTime);
     }
 }
