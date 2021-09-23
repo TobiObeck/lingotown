@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,20 +9,26 @@ public class DialogueManager : MonoBehaviour
 {
 
     public TextMeshProUGUI npcNameText;
-    public TextMeshProUGUI dialogueText;
+    public TextMeshProUGUI dialogueTextForeign;
+    public TextMeshProUGUI dialogueTextNative;
 
     public Animator animator;
 
-    private Queue<string> sentences;
+    private Queue<string> sentencesForeign;
+    private Queue<string> sentencesNative;
 
     void Start()
     {
-        sentences = new Queue<string>();
+        sentencesForeign = new Queue<string>();
+        sentencesNative = new Queue<string>();
     }
 
     public void StartDialogue(Dialogue dialogue){
+        
         PlayOpenDialogueBoxAnimation();
-        InitializeSentenceQueue(dialogue);
+        DisplayNpcName(dialogue);
+        InitializeSentenceQueues(dialogue);
+        
         DisplayNextSentence();
     }
 
@@ -29,32 +36,61 @@ public class DialogueManager : MonoBehaviour
         animator.SetBool("IsOpen", true);
     }
 
-    private void InitializeSentenceQueue(Dialogue dialogue){        
-        sentences.Clear();
-
+    private void DisplayNpcName(Dialogue dialogue){        
         npcNameText.text = dialogue.npcName;
+    }
 
-        foreach(string sentence in dialogue.sentences){
-            sentences.Enqueue(sentence);
+    private void InitializeSentenceQueues(Dialogue dialogue){        
+        sentencesForeign.Clear();
+        sentencesNative.Clear();        
+
+        foreach(string sentenceForeign in dialogue.sentencesForeign){
+            sentencesForeign.Enqueue(sentenceForeign);
+        }
+        foreach(string sentenceNative in dialogue.sentencesNative){
+            sentencesNative.Enqueue(sentenceNative);
+        }
+
+        if(sentencesForeign.Count != sentencesNative.Count){
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#endif            
+            string errorMsg = "" +
+            "The number of sentences between native" + 
+            " and foreign is different in NPC: " + dialogue.npcName;
+            throw new Exception(errorMsg);
+
+            // TODO create error panel, to catch errors in built version
+            // and append them to the panel for debugging info while playing
         }
     }
 
     public void DisplayNextSentence(){
-        if(sentences.Count == 0){
+        if(sentencesForeign.Count == 0){
             EndDialogue();
             return;
         }
 
-        string nextSentence = sentences.Dequeue();
-        // Debug.Log(nextSentence);        
+        string nextSentenceForeign = sentencesForeign.Dequeue();
+        string nextSentenceNative = sentencesNative.Dequeue();
+        
         StopAllCoroutines(); // stops Animation in case user triggers already next sentence
-        StartCoroutine(TypeSentence(nextSentence));        
+        StartCoroutine(TypeSentenceForeign(nextSentenceForeign));        
+        StartCoroutine(TypeSentenceNative(nextSentenceNative));        
     }
 
-    IEnumerator TypeSentence(string nextSentence){
-        dialogueText.text = "";
+    IEnumerator TypeSentenceForeign(string nextSentence){
+        dialogueTextForeign.text = "";
         foreach(char letter in nextSentence.ToCharArray()){
-            dialogueText.text += letter;
+            dialogueTextForeign.text += letter;
+            yield return null; // waiting a single frame
+        }
+    }
+
+    IEnumerator TypeSentenceNative(string nextSentence){
+        dialogueTextNative.text = "";
+        foreach(char letter in nextSentence.ToCharArray()){
+            dialogueTextNative.text += letter;
             yield return null; // waiting a single frame
         }
     }
