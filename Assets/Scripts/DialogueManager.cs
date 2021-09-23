@@ -48,7 +48,7 @@ public class DialogueManager : MonoBehaviour
         string nextSentence = sentences.Dequeue();
         // Debug.Log(nextSentence);        
         StopAllCoroutines(); // stops Animation in case user triggers already next sentence
-        StartCoroutine(TypeSentence(nextSentence));
+        StartCoroutine(TypeSentence(nextSentence));        
     }
 
     IEnumerator TypeSentence(string nextSentence){
