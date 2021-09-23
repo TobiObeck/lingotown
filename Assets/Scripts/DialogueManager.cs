@@ -76,7 +76,7 @@ public class DialogueManager : MonoBehaviour
         
         StopAllCoroutines(); // stops Animation in case user triggers already next sentence
         StartCoroutine(TypeSentenceForeign(nextSentenceForeign));        
-        StartCoroutine(TypeSentenceNative(nextSentenceNative));        
+        StartCoroutine(TypeSentenceNative(nextSentenceNative));
     }
 
     IEnumerator TypeSentenceForeign(string nextSentence){
