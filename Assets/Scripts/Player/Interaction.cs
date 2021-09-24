@@ -29,7 +29,6 @@ public class Interaction : MonoBehaviour
 
         if(other.CompareTag("NPC")) // more performant than other.gameObject.tag == "NPC"
         {
-            Debug.Log("NPC" + other);
             otherInteractionObject = other;
             interactionPanelUI.SetActive(true);
         }
@@ -39,7 +38,6 @@ public class Interaction : MonoBehaviour
         
         if(other.CompareTag("NPC")) // more performant than other.gameObject.tag == "NPC"
         {
-            Debug.Log("NPC" + other);
             otherInteractionObject = null;
             interactionPanelUI.SetActive(false);
         }

@@ -74,7 +74,9 @@ public class DialogueManager : MonoBehaviour
         string nextSentenceForeign = sentencesForeign.Dequeue();
         string nextSentenceNative = sentencesNative.Dequeue();
         
-        StopAllCoroutines(); // stops Animation in case user triggers already next sentence
+        // stops Animation in case user triggers already next sentence
+        StopCoroutine(TypeSentenceForeign(nextSentenceForeign)); 
+        StopCoroutine(TypeSentenceNative(nextSentenceNative)); 
         StartCoroutine(TypeSentenceForeign(nextSentenceForeign));        
         StartCoroutine(TypeSentenceNative(nextSentenceNative));
     }
