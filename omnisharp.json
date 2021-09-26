@@ -4,5 +4,18 @@
         "LocationPaths": [
             "./NuGet"
         ]
+    },
+    "fileOptions": {
+        "userExcludeSearchPatterns": ["**/scripts/**/*"]
+    },
+    "excludeSearchPatterns": ["**/scripts/**/*"],
+    "files.exclude": {
+        "**/scripts/**/*": true
+    },
+    "files.watcherExclude": {
+        "**/scripts/**/*": true
+    },
+    "search.exclude": {
+        "**/scripts/**/*": true
     }
 }
