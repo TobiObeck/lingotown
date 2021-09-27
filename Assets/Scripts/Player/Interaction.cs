@@ -7,18 +7,28 @@ public class Interaction : MonoBehaviour
 
     public GameObject interactionPanelUI;
     private Collider otherInteractionObject;
-    
+
+    private bool isInteractionPossible = false;
+
     private void Start()
     {
         interactionPanelUI.SetActive(false);
     }
 
-    public void Update(){
-        if (interactionPanelUI.activeSelf == true && Input.GetKeyDown(KeyCode.E)){            
-            if(otherInteractionObject != null){
-                DialogueTrigger dialogueTrigger = otherInteractionObject.GetComponent<DialogueTrigger>();                
-                dialogueTrigger.TriggerDialogue();
-            }            
+    public void Update()
+    {
+        if (StateSingleton.GetState() == StateSingleton.State.Playing
+            && isInteractionPossible == true
+            && Input.GetKeyDown(KeyCode.E)
+            && otherInteractionObject != null)
+        {
+            StateSingleton.SendEvent(StateSingleton.Event.StartTalking);
+
+            isInteractionPossible = false;
+            interactionPanelUI.SetActive(false);
+
+            DialogueTrigger dialogueTrigger = otherInteractionObject.GetComponent<DialogueTrigger>();
+            dialogueTrigger.TriggerDialogue();
         }
     }
 
@@ -26,21 +36,30 @@ public class Interaction : MonoBehaviour
     //Upon collision with another GameObject, this GameObject will reverse direction
     private void OnTriggerStay(Collider other)
     {
-
-        if(other.CompareTag("NPC")) // more performant than other.gameObject.tag == "NPC"
+        if (other.CompareTag("NPC")) // more performant than other.gameObject.tag == "NPC"
         {
-            otherInteractionObject = other;
-            interactionPanelUI.SetActive(true);
+            if (StateSingleton.GetState() == StateSingleton.State.Playing)
+            {
+                otherInteractionObject = other;
+                isInteractionPossible = true;
+                if (interactionPanelUI.activeSelf != true)
+                {
+                    interactionPanelUI.SetActive(true);
+                }
+            }
         }
     }
 
-    private void OnTriggerExit(Collider other){
-        
-        if(other.CompareTag("NPC")) // more performant than other.gameObject.tag == "NPC"
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("NPC")) // more performant than other.gameObject.tag == "NPC"
         {
-            otherInteractionObject = null;
-            interactionPanelUI.SetActive(false);
+            if (StateSingleton.GetState() == StateSingleton.State.Playing)
+            {
+                otherInteractionObject = null;
+                isInteractionPossible = false;
+                interactionPanelUI.SetActive(false);
+            }
         }
     }
-
 }

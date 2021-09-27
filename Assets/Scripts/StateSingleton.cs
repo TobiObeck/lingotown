@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class StateSingleton : MonoBehaviour
 {
+    public static event Action<State> OnStateEvent;
 
     private static StateSingleton _instance;
     private static State state = State.Initial;
@@ -60,6 +61,9 @@ public class StateSingleton : MonoBehaviour
                 if (event_ == Event.StartGame)
                 {
                     state = State.Playing;
+                    
+                    Cursor.visible = false;
+                    Cursor.lockState = CursorLockMode.Locked;
                     LoadFirstLevel();
                 }
                 break;
@@ -68,8 +72,8 @@ public class StateSingleton : MonoBehaviour
                 {
                     state = State.Talking;
 
-                    Cursor.visible = false;
-                    Cursor.lockState = CursorLockMode.Locked;
+                    Cursor.visible = true;
+                    Cursor.lockState = CursorLockMode.None;
                 }
                 if (event_ == Event.TogglePause)
                 {
@@ -83,8 +87,8 @@ public class StateSingleton : MonoBehaviour
                 {
                     state = State.Playing;
 
-                    Cursor.visible = true;
-                    Cursor.lockState = CursorLockMode.None;
+                    Cursor.visible = false;
+                    Cursor.lockState = CursorLockMode.Locked;
                 }
                 break;
             case State.Pause:
@@ -102,6 +106,9 @@ public class StateSingleton : MonoBehaviour
                 break;
         }
 
+        Debug.Log("State: " + state);
+
+        OnStateEvent?.Invoke(state);
     }
 
     private static void LoadFirstLevel()

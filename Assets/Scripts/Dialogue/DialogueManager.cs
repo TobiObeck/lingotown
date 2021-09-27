@@ -17,46 +17,66 @@ public class DialogueManager : MonoBehaviour
     private Queue<string> sentencesForeign;
     private Queue<string> sentencesNative;
 
-    void Start()
+    private void Start()
     {
         sentencesForeign = new Queue<string>();
         sentencesNative = new Queue<string>();
     }
 
-    public void StartDialogue(Dialogue dialogue){
-        
+    private void Update()
+    {
+
+        if (StateSingleton.GetState() == StateSingleton.State.Talking)
+        {
+            if (Input.GetKeyDown(KeyCode.RightArrow) 
+            || Input.GetKeyDown(KeyCode.D))
+            {
+                DisplayNextSentence();
+            }
+        }
+    }
+
+    public void StartDialogue(Dialogue dialogue)
+    {
+
         PlayOpenDialogueBoxAnimation();
         DisplayNpcName(dialogue);
         InitializeSentenceQueues(dialogue);
-        
+
         DisplayNextSentence();
     }
 
-    private void PlayOpenDialogueBoxAnimation(){
+    private void PlayOpenDialogueBoxAnimation()
+    {
         animator.SetBool("IsOpen", true);
     }
 
-    private void DisplayNpcName(Dialogue dialogue){        
+    private void DisplayNpcName(Dialogue dialogue)
+    {
         npcNameText.text = dialogue.npcName;
     }
 
-    private void InitializeSentenceQueues(Dialogue dialogue){        
+    private void InitializeSentenceQueues(Dialogue dialogue)
+    {
         sentencesForeign.Clear();
-        sentencesNative.Clear();        
+        sentencesNative.Clear();
 
-        foreach(string sentenceForeign in dialogue.sentencesForeign){
+        foreach (string sentenceForeign in dialogue.sentencesForeign)
+        {
             sentencesForeign.Enqueue(sentenceForeign);
         }
-        foreach(string sentenceNative in dialogue.sentencesNative){
+        foreach (string sentenceNative in dialogue.sentencesNative)
+        {
             sentencesNative.Enqueue(sentenceNative);
         }
 
-        if(sentencesForeign.Count != sentencesNative.Count){
+        if (sentencesForeign.Count != sentencesNative.Count)
+        {
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
 #endif            
             string errorMsg = "" +
-            "The number of sentences between native" + 
+            "The number of sentences between native" +
             " and foreign is different in NPC: " + dialogue.npcName;
             throw new Exception(errorMsg);
 
@@ -65,40 +85,48 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    public void DisplayNextSentence(){
-        if(sentencesForeign.Count == 0){
+    public void DisplayNextSentence()
+    {
+        if (sentencesForeign.Count == 0)
+        {
             EndDialogue();
             return;
         }
 
         string nextSentenceForeign = sentencesForeign.Dequeue();
         string nextSentenceNative = sentencesNative.Dequeue();
-        
+
         // stops Animation in case user triggers already next sentence
-        StopCoroutine(TypeSentenceForeign(nextSentenceForeign)); 
-        StopCoroutine(TypeSentenceNative(nextSentenceNative)); 
-        StartCoroutine(TypeSentenceForeign(nextSentenceForeign));        
+        StopCoroutine(TypeSentenceForeign(nextSentenceForeign));
+        StopCoroutine(TypeSentenceNative(nextSentenceNative));
+        StartCoroutine(TypeSentenceForeign(nextSentenceForeign));
         StartCoroutine(TypeSentenceNative(nextSentenceNative));
     }
 
-    IEnumerator TypeSentenceForeign(string nextSentence){
+    IEnumerator TypeSentenceForeign(string nextSentence)
+    {
         dialogueTextForeign.text = "";
-        foreach(char letter in nextSentence.ToCharArray()){
+        foreach (char letter in nextSentence.ToCharArray())
+        {
             dialogueTextForeign.text += letter;
             yield return null; // waiting a single frame
         }
     }
 
-    IEnumerator TypeSentenceNative(string nextSentence){
+    IEnumerator TypeSentenceNative(string nextSentence)
+    {
         dialogueTextNative.text = "";
-        foreach(char letter in nextSentence.ToCharArray()){
+        foreach (char letter in nextSentence.ToCharArray())
+        {
             dialogueTextNative.text += letter;
             yield return null; // waiting a single frame
         }
     }
 
-    private void EndDialogue(){
+    private void EndDialogue()
+    {
         Debug.Log("end of convo");
         animator.SetBool("IsOpen", false);
+        StateSingleton.SendEvent(StateSingleton.Event.EndTalking);
     }
 }

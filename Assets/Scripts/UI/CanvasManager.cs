@@ -10,13 +10,19 @@ public class CanvasManager : MonoBehaviour
     [SerializeField]
     private GameObject dialogueCanvas;
 
+    void Awake(){
+        StateSingleton.OnStateEvent += HandleStateEvent;
+    }
+
+    void OnDestroy(){
+        StateSingleton.OnStateEvent -= HandleStateEvent;
+    }
 
     void Start()
     {
         StateSingleton.State state = StateSingleton.GetState();
         if(state == StateSingleton.State.MainMenu){
-            mainMenuCanvas.SetActive(true);
-            dialogueCanvas.SetActive(false);
+
         }
     }
 
@@ -24,11 +30,16 @@ public class CanvasManager : MonoBehaviour
         StateSingleton.SendEvent(StateSingleton.Event.StartGame);
     }
 
-    void Update()
-    {
-        StateSingleton.State state = StateSingleton.GetState();
+    public void QuitGameHandler(){
+        Application.Quit();
+    }
+
+    private void HandleStateEvent(StateSingleton.State state){
+        if(state == StateSingleton.State.MainMenu){
+            mainMenuCanvas.SetActive(true);
+            dialogueCanvas.SetActive(false);
+        }
         if(state == StateSingleton.State.Playing){
-            Debug.Log("CHANGE PLAYING CHANGE PLAYING CHANGE PLAYING");
             mainMenuCanvas.SetActive(false);
             dialogueCanvas.SetActive(true);
         }
