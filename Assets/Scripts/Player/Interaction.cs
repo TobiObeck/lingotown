@@ -10,10 +10,22 @@ public class Interaction : MonoBehaviour
 
     private bool isInteractionPossible = false;
 
+    void Awake()
+    {
+        StateSingleton.OnStateEvent += HandleStateEvent;
+    }
+
+    void OnDestroy()
+    {
+        StateSingleton.OnStateEvent -= HandleStateEvent;
+    }
+
     private void Start()
     {
         interactionPanelUI.SetActive(false);
     }
+
+    private bool isDialogueStarted = false;
 
     public void Update()
     {
@@ -22,6 +34,8 @@ public class Interaction : MonoBehaviour
             && Input.GetKeyDown(KeyCode.E)
             && otherInteractionObject != null)
         {
+            isDialogueStarted = true;
+
             StateSingleton.SendEvent(StateSingleton.Event.StartTalking);
 
             isInteractionPossible = false;
@@ -29,6 +43,20 @@ public class Interaction : MonoBehaviour
 
             DialogueTrigger dialogueTrigger = otherInteractionObject.GetComponent<DialogueTrigger>();
             dialogueTrigger.TriggerDialogue();
+        }
+
+    }
+
+    // eventuall perform an action after the dialogue ends
+    private void HandleStateEvent(StateSingleton.State state)
+    {
+        // TODO this is a bit of an messy implementation. It is not 
+        // It is not necessarily the dialoogue state we are coming from.
+        // Could be pausing while player interaction collides with NPC then unpausing...
+        if (isDialogueStarted == true && state == StateSingleton.State.Playing)
+        {
+            DialogueTrigger dialogueTrigger = otherInteractionObject.GetComponent<DialogueTrigger>();
+            dialogueTrigger.AfterDialogueAction();
         }
     }
 
