@@ -99,12 +99,11 @@ public class Interaction : MonoBehaviour
     private void CheckRayCastHitWithInteractable()
     {
         Transform direction = null;
-        Transform player = transform.parent;
+        Transform player = transform.parent;        
         foreach (Transform child in player)
         {
-            if (child.name == "DirectionVectorForInteraction")
-            {
-                direction = child;
+            if(child.CompareTag("MainCamera") == true){
+                direction = child.GetChild(0); // .name == "DirectionVectorForInteraction"
             }
         }
 
