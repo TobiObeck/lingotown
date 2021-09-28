@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class Dummy : AbstractPostDialogueAction
+public class OpenDoorAction : AbstractAfterInteractionAction
 {
     public Transform door;
-    public override void AfterDialogueAction()
+    
+    public override void ExecuteAction()
     {
         Debug.Log("Abstract AfterDialogueCallback");
         Debug.Log(door + " " + door.position);
