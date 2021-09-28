@@ -6,9 +6,17 @@ public class DialogueTrigger : MonoBehaviour
 {
     public Dialogue dialogue;
 
+    public DialogueSO dialogueSO;
+
     public void TriggerDialogue()
     {
-        FindObjectOfType<DialogueManager>().StartDialogue(dialogue);
+        Dialogue tempDialogue = new Dialogue();
+        tempDialogue.npcName = dialogueSO.npcName;
+        tempDialogue.sentencesNative = dialogueSO.sentencesNative;
+        tempDialogue.sentencesForeign = dialogueSO.sentencesForeign;
+        // TODO remove Dialogue class here and in dialoguemanager.
+        // Is not needed anymore. Was replaced by scriptable object
+        FindObjectOfType<DialogueManager>().StartDialogue(tempDialogue);
     }
 
     public void AfterDialogueAction()
