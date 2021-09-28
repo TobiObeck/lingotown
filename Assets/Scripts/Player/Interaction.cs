@@ -85,8 +85,8 @@ public class Interaction : MonoBehaviour
 
     private void StartInteraction()
     {
-        OpenDoorAction dummy = interactableHit.transform.GetComponent<OpenDoorAction>();
-        dummy.AfterInteractionAction();
+        AbstractAfterInteractionAction action = interactableHit.transform.GetComponent<AbstractAfterInteractionAction>();
+        action.AfterInteractionAction();
     }
 
     // checks is raycast hit with gameobject tag "interactable" or 
@@ -110,7 +110,7 @@ public class Interaction : MonoBehaviour
         // RaycastHit hit;
         Vector3 origin = direction.transform.position;
         Vector3 directionVec = direction.transform.forward;
-        int maxDistance = 2;
+        int maxDistance = 6;
 
         bool isHit = Physics.Raycast(origin, directionVec, out RaycastHit hit);
         if (isHit){
