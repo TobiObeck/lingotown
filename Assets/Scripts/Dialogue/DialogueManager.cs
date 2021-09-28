@@ -17,6 +17,9 @@ public class DialogueManager : MonoBehaviour
     private Queue<string> sentencesForeign;
     private Queue<string> sentencesNative;
 
+    private IEnumerator foreignCoroutine;
+    private IEnumerator nativeCoroutine;
+
     private void Start()
     {
         sentencesForeign = new Queue<string>();
@@ -28,7 +31,7 @@ public class DialogueManager : MonoBehaviour
 
         if (StateSingleton.GetState() == StateSingleton.State.Talking)
         {
-            if (Input.GetKeyDown(KeyCode.RightArrow) 
+            if (Input.GetKeyDown(KeyCode.RightArrow)
             || Input.GetKeyDown(KeyCode.D))
             {
                 DisplayNextSentence();
@@ -97,10 +100,17 @@ public class DialogueManager : MonoBehaviour
         string nextSentenceNative = sentencesNative.Dequeue();
 
         // stops Animation in case user triggers already next sentence
-        StopCoroutine(TypeSentenceForeign(nextSentenceForeign));
-        StopCoroutine(TypeSentenceNative(nextSentenceNative));
-        StartCoroutine(TypeSentenceForeign(nextSentenceForeign));
-        StartCoroutine(TypeSentenceNative(nextSentenceNative));
+        // these have to be member variables to ensure the same coroutine is stopped
+        // or use StopAllCoroutines();
+
+        if(foreignCoroutine != null) StopCoroutine(foreignCoroutine);
+        if(nativeCoroutine != null) StopCoroutine(nativeCoroutine);
+
+        foreignCoroutine = TypeSentenceForeign(nextSentenceForeign);
+        nativeCoroutine = TypeSentenceNative(nextSentenceNative);
+
+        StartCoroutine(foreignCoroutine);
+        StartCoroutine(nativeCoroutine);        
     }
 
     IEnumerator TypeSentenceForeign(string nextSentence)
@@ -109,8 +119,9 @@ public class DialogueManager : MonoBehaviour
         foreach (char letter in nextSentence.ToCharArray())
         {
             dialogueTextForeign.text += letter;
-            yield return null; // waiting a single frame
+            yield return new WaitForSeconds(.03f);
         }
+        yield return null; // waiting a single frame
     }
 
     IEnumerator TypeSentenceNative(string nextSentence)
@@ -119,8 +130,9 @@ public class DialogueManager : MonoBehaviour
         foreach (char letter in nextSentence.ToCharArray())
         {
             dialogueTextNative.text += letter;
-            yield return null; // waiting a single frame
+            yield return new WaitForSeconds(.03f);
         }
+        yield return null; // waiting a single frame
     }
 
     private void EndDialogue()
