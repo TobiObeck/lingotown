@@ -19,7 +19,7 @@ public class OnTriggerEnterLoadNextScene : MonoBehaviour
                 GameObject player = GameObject.Find("Player");
                 CharacterController charController = player.GetComponent<PlayerMovement>().controller;
                 charController.enabled = false;
-                charController.transform.position = new Vector3(0, 0, 0);
+                charController.transform.position = new Vector3(0, 1, 0);
                 charController.enabled = true;
 
                 SceneManager.LoadScene("SecondScene");

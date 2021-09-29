@@ -102,10 +102,11 @@ public class Interaction : MonoBehaviour
     private void CheckRayCastHitWithInteractable()
     {
         Transform direction = null;
-        Transform player = transform.parent;        
+        Transform player = transform.parent;
         foreach (Transform child in player)
         {
-            if(child.CompareTag("MainCamera") == true){
+            if (child.CompareTag("MainCamera") == true)
+            {
                 direction = child.GetChild(0); // .name == "DirectionVectorForInteraction"
             }
         }
@@ -115,22 +116,30 @@ public class Interaction : MonoBehaviour
         Vector3 directionVec = direction.transform.forward;
         int maxDistance = 6;
 
-        bool isHit = Physics.Raycast(origin, directionVec, out RaycastHit hit);
-        if (isHit){
+        bool isHit = Physics.Raycast(origin, directionVec, out RaycastHit hit);        
+        if (isHit)
+        {            
             // Debug.Log(hit.transform.name);
-            Debug.DrawRay(origin, directionVec, Color.green);
 
             if (hit.transform.CompareTag("interactable") &&
                 hit.distance <= maxDistance)
             {
+                Debug.DrawRay(origin, directionVec, Color.green);
                 isInteractableHit = true;
                 interactableHit = hit;
             }
             else
             {
+                Debug.DrawRay(origin, directionVec, Color.blue);
                 isInteractableHit = false;
                 interactableHit = new RaycastHit();
             }
+        }
+        else
+        {
+            Debug.DrawRay(origin, directionVec, Color.grey);
+            isInteractableHit = false;
+            interactableHit = new RaycastHit();
         }
     }
 
