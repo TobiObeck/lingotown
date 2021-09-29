@@ -10,6 +10,8 @@ public class Interaction : MonoBehaviour
 
     private bool isCurrentlyColliding = false;
 
+    private CanvasManager canvasManager;
+
     void Awake()
     {
         StateSingleton.OnStateEvent += HandleStateEvent;
@@ -22,7 +24,8 @@ public class Interaction : MonoBehaviour
 
     private void Start()
     {
-        interactionPanelUI.SetActive(false);
+        canvasManager = FindObjectOfType<CanvasManager>();
+        canvasManager.interactionPanelUI.SetActive(false);
     }
 
     private bool isDialogueStarted = false;
@@ -77,7 +80,7 @@ public class Interaction : MonoBehaviour
         StateSingleton.SendEvent(StateSingleton.Event.StartTalking);
 
         isCurrentlyColliding = false;
-        interactionPanelUI.SetActive(false);
+        canvasManager.interactionPanelUI.SetActive(false);
 
         DialogueTrigger dialogueTrigger = otherInteractionObject.GetComponent<DialogueTrigger>();
         dialogueTrigger.TriggerDialogue();
@@ -158,15 +161,15 @@ public class Interaction : MonoBehaviour
 
     private void SetActive()
     {
-        if (interactionPanelUI.activeSelf != true)
+        if (canvasManager.interactionPanelUI.activeSelf != true)
         {
-            interactionPanelUI.SetActive(true);
+            canvasManager.interactionPanelUI.SetActive(true);
         }
     }
 
     private void SetInactive()
     {
-        interactionPanelUI.SetActive(false);
+        canvasManager.interactionPanelUI.SetActive(false);
     }
 }
 

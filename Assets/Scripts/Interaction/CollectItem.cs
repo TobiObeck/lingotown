@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CollectKey : AbstractAfterInteractionAction
+public class CollectItem : AbstractAfterInteractionAction
 {
 
-    public string keyName = "key";
+    public string itemName = "someitem";
 
     public override void ExecuteAction()
     {
-        FindObjectOfType<InventoryManager>().AddItem(keyName);
+        FindObjectOfType<InventoryManager>().AddItem(itemName);
         Destroy(gameObject);
     }
 }

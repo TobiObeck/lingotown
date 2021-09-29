@@ -10,8 +10,11 @@ public class CanvasManager : MonoBehaviour
     [SerializeField]
     private GameObject dialogueCanvas;
 
+    public GameObject interactionPanelUI;
+
     void Awake(){
         StateSingleton.OnStateEvent += HandleStateEvent;
+        DontDestroyOnLoad(gameObject);
     }
 
     void OnDestroy(){

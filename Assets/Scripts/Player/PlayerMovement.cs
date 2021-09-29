@@ -18,6 +18,12 @@ public class PlayerMovement : MonoBehaviour
 
     private bool isGrounded;
 
+    public virtual void Awake()
+    {
+        // The GameObject will persist across mutliple scenes.
+        DontDestroyOnLoad(gameObject);
+    }
+
     void Update()
     {
         ResetFallingVelocityWhenGrounded();

@@ -119,7 +119,7 @@ public class DialogueManager : MonoBehaviour
         foreach (char letter in nextSentence.ToCharArray())
         {
             dialogueTextForeign.text += letter;
-            yield return new WaitForSeconds(.03f);
+            yield return new WaitForSeconds(.01f);
         }
         yield return null; // waiting a single frame
     }
@@ -130,7 +130,7 @@ public class DialogueManager : MonoBehaviour
         foreach (char letter in nextSentence.ToCharArray())
         {
             dialogueTextNative.text += letter;
-            yield return new WaitForSeconds(.03f);
+            yield return new WaitForSeconds(.01f);
         }
         yield return null; // waiting a single frame
     }

@@ -13,6 +13,15 @@ public class OnTriggerEnterLoadNextScene : MonoBehaviour
         {
             if (StateSingleton.GetState() == StateSingleton.State.Playing)
             {
+                // reseting player position on scene change
+                // disabling the character controller is needed otherwise it would
+                // overrite this manual resetting of the position 
+                GameObject player = GameObject.Find("Player");
+                CharacterController charController = player.GetComponent<PlayerMovement>().controller;
+                charController.enabled = false;
+                charController.transform.position = new Vector3(0, 0, 0);
+                charController.enabled = true;
+
                 SceneManager.LoadScene("SecondScene");
             }
         }

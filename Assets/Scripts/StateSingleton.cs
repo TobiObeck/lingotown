@@ -29,13 +29,20 @@ public class StateSingleton : MonoBehaviour
     // ensure only one singleton exists in the scene
     private void Awake()
     {
-        if(_instance != null){
+        if (_instance != null)
+        {
             Destroy(this);
         }
+        
         DontDestroyOnLoad(this); // dont destroy when changing scenes
+        if (_instance == null)
+        {
+            return;
+        }
     }
 
-    private void Start(){
+    private void Start()
+    {
         SendEvent(StateSingleton.Event.EnterMainMenu);
     }
 
@@ -51,7 +58,8 @@ public class StateSingleton : MonoBehaviour
         switch (state)
         {
             case State.Initial:
-                if (event_ == Event.EnterMainMenu){
+                if (event_ == Event.EnterMainMenu)
+                {
                     state = State.MainMenu;
                     Cursor.visible = true;
                     Cursor.lockState = CursorLockMode.None;
@@ -61,7 +69,7 @@ public class StateSingleton : MonoBehaviour
                 if (event_ == Event.StartGame)
                 {
                     state = State.Playing;
-                    
+
                     Cursor.visible = false;
                     Cursor.lockState = CursorLockMode.Locked;
                     LoadFirstLevel();
