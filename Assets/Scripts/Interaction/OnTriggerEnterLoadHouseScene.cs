@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class OnTriggerEnterLoadNextScene : MonoBehaviour
+public class OnTriggerEnterLoadHouseScene : MonoBehaviour
 {
 
     private void OnTriggerEnter(Collider other)
