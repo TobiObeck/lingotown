@@ -1,8 +1,23 @@
 Used Assets/Packages
 
-# Tutorial Scene
+## Key Features and Noteworthy Implementation details
 
-- everything made by myself
+- NPC dialogues are triggered with a sphere collider
+- door switch is triggered with a ray cast
+- The `AbstractAfterInteractionAction` class defines a method that can be executed after an interaction or dialogue. The actual implementation fo the action happens in an inheriting class. Therefore, different kinds of actions can be triggered after an interaction/dialogue in a composable fashion. E.g. simply by adding a small open door script.
+- ScriptableObjects for the NPC dialogues in german and english
+- animated dialogue
+- usage of singletons for manager classes
+- finite state machine-like pattern for determining the overall game state. This prevents looking and moving in the main menu and in dialogues.
+
+## Tutorial Scene
+
+3D models made with blender:
+
+- Robot NPC
+- computer monitor and mouse
+- key
+- building, doors, etc. built with unity standard objects
 
 ## Second Scene
 
