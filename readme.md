@@ -1,4 +1,6 @@
-Used Assets/Packages
+# Lingotown
+
+![lingotown](https://user-images.githubusercontent.com/13554426/135513639-862590af-e5ef-465a-a9a4-46e920c25231.jpg)
 
 ## Key Features and Noteworthy Implementation details
 
@@ -10,7 +12,9 @@ Used Assets/Packages
 - usage of singletons for manager classes
 - finite state machine-like pattern for determining the overall game state. This prevents looking and moving in the main menu and in dialogues.
 
-## Tutorial Scene
+## Details about Assets
+
+### Tutorial Scene
 
 3D models made with blender:
 
@@ -19,21 +23,21 @@ Used Assets/Packages
 - key
 - building, doors, etc. built with unity standard objects
 
-## Second Scene
+### Second Scene
 
-### House
+#### House
 
 Free Fantasy Medieval Houses and Props Pack
 https://assetstore.unity.com/packages/3d/environments/fantasy/free-fantasy-medieval-houses-and-props-pack-167010
 
 
-### Ground Material
+#### Ground Material
 
 PBR Ground Free
 https://assetstore.unity.com/packages/2d/textures-materials/floors/pbr-ground-free-158595
 
 
-### Female NPC (host family member)
+#### Female NPC (host family member)
 
 Girl with clothes. Worker set
 https://assetstore.unity.com/packages/3d/characters/humanoids/girl-with-clothes-worker-set-162925
