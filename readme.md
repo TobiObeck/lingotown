@@ -1,6 +1,27 @@
 # Lingotown
 
+Lingotown is a game where you can talk to NPCs with a **bilingual dialogue system** (proof of concept).
+
+- **Texts are shown in the target language you want to learn**
+- Also, a **translation in your native language** is shown with deemphasized text.
+
 ![lingotown](https://user-images.githubusercontent.com/13554426/135513639-862590af-e5ef-465a-a9a4-46e920c25231.jpg)
+
+You start in a training center...
+
+![1_receptionist](https://github.com/TobiObeck/lingotown/assets/13554426/23090f06-b13e-4a86-8d4b-4b2cee082393)
+
+...and can play different simulated training scenarios for practicing real-life interactions in common situations. (currently only 1 scenario is implemented)
+
+![4_tech_guy](https://github.com/TobiObeck/lingotown/assets/13554426/f4322426-491f-403d-bdcc-b52ed24c6a3f)
+
+Start the first scenario:
+
+![5_computer](https://github.com/TobiObeck/lingotown/assets/13554426/a305d549-dcba-4c2d-acff-96f70196ab9f)
+
+You are **IN** the virtual scenario accomplishing a simple fetch quest:
+
+![6_mother](https://github.com/TobiObeck/lingotown/assets/13554426/60ee4db5-f25a-4194-916b-0eaf992b7d60)
 
 ## Key Features and Noteworthy Implementation details
 
